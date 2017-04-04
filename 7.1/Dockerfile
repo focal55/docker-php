@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install amqp \
     && usermod -u 1000 www-data \
-    && mkdir -p /var/www/app
+    && mkdir -p /app
 
 WORKDIR /app
 

@@ -11,4 +11,5 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install amqp \
     && ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load \
-    && usermod -u 1000 www-data
+    && usermod -u 1000 www-data \
+    && mkdir /app
