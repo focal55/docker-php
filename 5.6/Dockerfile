@@ -2,6 +2,11 @@ FROM php:5.6
 MAINTAINER Mike Milano <coder1@gmail.com>
 
 RUN apt-get update && apt-get install -y \
+        curl \
+        mysql-client \
+        openssh-client \
+        openssl \
+        rsync \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
@@ -11,7 +16,8 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install amqp \
     && usermod -u 1000 www-data \
-    && mkdir -p /app
+    && mkdir -p /app \
+    && mkdir $HOME/.drush
 
 ENV PATH "/composer/vendor/bin:$PATH"
 ENV COMPOSER_ALLOW_SUPERUSER 1
@@ -29,7 +35,8 @@ RUN curl -s -f -L -o /tmp/installer.php https://raw.githubusercontent.com/compos
     }" \
  && php /tmp/installer.php --no-ansi --install-dir=/usr/bin --filename=composer --version=${COMPOSER_VERSION} \
  && rm /tmp/installer.php \
- && composer --ansi --version --no-interaction
+ && composer --ansi --version --no-interaction \
+ && composer global require drush/drush:8.1.10
 
 WORKDIR /app
 
